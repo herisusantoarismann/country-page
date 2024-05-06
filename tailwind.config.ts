@@ -15,6 +15,7 @@ const config: Config = {
       },
       colors: {
         secondary: "#282B30",
+        "brand-grey": "#6C727F",
       },
     },
   },
