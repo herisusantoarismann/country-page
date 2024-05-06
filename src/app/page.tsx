@@ -56,7 +56,7 @@ export default function Home() {
           </div>
 
           {/* Content */}
-          <div className="mt-8">
+          <div className="mt-8 flex gap-12">
             <div className="flex w-1/5 flex-col gap-8">
               {/* Sort By */}
               <div className="flex flex-col gap-2">
@@ -121,7 +121,27 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div></div>
+            <div className="flex-1">
+              <table className="w-full">
+                <th className="border-b border-brand-grey pb-4 text-sm text-brand-grey">
+                  <td className="">Flag</td>
+                </th>
+                <th className="border-b border-brand-grey pb-4 text-sm text-brand-grey">
+                  <td className="">Name</td>
+                </th>
+                <th className="border-b border-brand-grey pb-4 text-sm text-brand-grey">
+                  <td className="">Population</td>
+                </th>
+                <th className="border-b border-brand-grey pb-4 text-sm text-brand-grey">
+                  <td className="">
+                    Area (km<sup>2</sup>)
+                  </td>
+                </th>
+                <th className="border-b border-brand-grey pb-4 text-sm text-brand-grey">
+                  <td className="">Region</td>
+                </th>
+              </table>
+            </div>
           </div>
         </div>
       </div>
