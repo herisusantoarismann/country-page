@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 
 import BackgroundImage from "@/assets/images/hero-image-wr.jpg";
@@ -6,8 +8,24 @@ import Search from "@/assets/images/Search.svg";
 import ChevronDown from "@/assets/images/Expand_down.svg";
 import Checkbox from "@/components/form/Checkbox";
 import RegionItem from "@/components/RegionItem";
+import countryServices from "@/services/country";
+import useCountriesStore from "@/stores/countryStore";
+
+const { getAllCountries } = countryServices();
+
+const getCountries = async () => {
+  const { setCountries } = useCountriesStore((state) => state);
+
+  const { data } = await getAllCountries();
+
+  setCountries(data);
+};
 
 export default function Home() {
+  getCountries();
+  const { countries } = useCountriesStore((state) => state);
+  console.log(countries);
+
   const formCheckBox = [
     {
       label: "Member of the United Nations",
@@ -123,23 +141,17 @@ export default function Home() {
             </div>
             <div className="flex-1">
               <table className="w-full">
-                <th className="border-b border-brand-grey pb-4 text-sm text-brand-grey">
-                  <td className="">Flag</td>
-                </th>
-                <th className="border-b border-brand-grey pb-4 text-sm text-brand-grey">
-                  <td className="">Name</td>
-                </th>
-                <th className="border-b border-brand-grey pb-4 text-sm text-brand-grey">
-                  <td className="">Population</td>
-                </th>
-                <th className="border-b border-brand-grey pb-4 text-sm text-brand-grey">
-                  <td className="">
-                    Area (km<sup>2</sup>)
-                  </td>
-                </th>
-                <th className="border-b border-brand-grey pb-4 text-sm text-brand-grey">
-                  <td className="">Region</td>
-                </th>
+                <thead>
+                  <tr className="border-b border-brand-grey  text-left text-sm text-brand-grey">
+                    <th className="pb-4">Flag</th>
+                    <th className="pb-4">Name</th>
+                    <th className="pb-4">Population</th>
+                    <th className="pb-4">
+                      Area (km<sup>2</sup>)
+                    </th>
+                    <th className="pb-4">Region</th>
+                  </tr>
+                </thead>
               </table>
             </div>
           </div>
