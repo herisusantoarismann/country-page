@@ -14,20 +14,26 @@ export interface Country {
     svg: string;
     alt: string;
   };
+  [key: string]: any;
 }
 
 interface CountriesState {
   countries: Country[];
   filteredCountries: Country[];
+  sortBy: string;
   setCountries: (countries: Country[]) => void;
   searchCountry: (keyword: string) => void;
+  sortByFunc: (value: string) => void;
 }
 
 const useCountriesStore = create<CountriesState>((set, get) => ({
   countries: [],
   filteredCountries: [],
+  sortBy: "population",
   setCountries: (newCountries) => {
-    set({ countries: newCountries, filteredCountries: newCountries });
+    const result = newCountries.sort((a, b) => b.population - a.population);
+
+    set({ countries: result, filteredCountries: result });
   },
   searchCountry: (keyword) => {
     const { countries } = get();
@@ -41,6 +47,17 @@ const useCountriesStore = create<CountriesState>((set, get) => ({
     );
 
     set({ filteredCountries: result });
+  },
+  sortByFunc: (value: string) => {
+    const { filteredCountries } = get();
+
+    const result = filteredCountries.sort((a, b) =>
+      value === "name"
+        ? a.name.common.localeCompare(b.name.common)
+        : b[value] - a[value],
+    );
+
+    set({ filteredCountries: result, sortBy: value });
   },
 }));
 

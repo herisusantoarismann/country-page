@@ -15,8 +15,13 @@ import countryServices from "@/services/country";
 const { getAllCountries } = countryServices();
 
 const Home = () => {
-  const { countries, filteredCountries, setCountries, searchCountry } =
-    useCountriesStore((state) => state);
+  const {
+    countries,
+    filteredCountries,
+    setCountries,
+    searchCountry,
+    sortByFunc,
+  } = useCountriesStore((state) => state);
 
   const formCheckBox = [
     {
@@ -82,7 +87,7 @@ const Home = () => {
           </div>
 
           {/* Content */}
-          <div className="flex h-full gap-12 overflow-hidden pt-12">
+          <div className="flex h-[calc(100%_-_48px)] gap-12 overflow-hidden pt-12">
             <div className="flex h-full w-1/5 flex-col gap-8 overflow-auto">
               {/* Sort By */}
               <div className="flex flex-col gap-2">
@@ -97,10 +102,15 @@ const Home = () => {
                     name="sortBy"
                     id="sortBy"
                     className="mr-2 w-full appearance-none bg-secondary px-4 py-2 text-brand-light-grey"
+                    onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+                      const value = e.target.value;
+
+                      sortByFunc(value);
+                    }}
                   >
                     <option value="population">Population</option>
-                    <option value="alphabetical">Alphabetical</option>
-                    <option value="Area">Area</option>
+                    <option value="name">Alphabetical</option>
+                    <option value="area">Area</option>
                   </select>
 
                   {/* Chevron down */}
@@ -148,16 +158,18 @@ const Home = () => {
               </div>
             </div>
             <div className="h-full flex-1 overflow-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-brand-grey  text-left text-sm text-brand-grey">
-                    <th className="pb-4">Flag</th>
-                    <th className="pb-4">Name</th>
-                    <th className="pb-4">Population</th>
-                    <th className="pb-4">
+              <table className="w-full border-separate">
+                <thead className="sticky top-0 bg-secondary ">
+                  <tr className="text-left text-sm text-brand-grey">
+                    <th className="border-b border-brand-grey pb-4 ">Flag</th>
+                    <th className="border-b border-brand-grey pb-4">Name</th>
+                    <th className="border-b border-brand-grey pb-4">
+                      Population
+                    </th>
+                    <th className="border-b border-brand-grey pb-4">
                       Area (km<sup>2</sup>)
                     </th>
-                    <th className="pb-4">Region</th>
+                    <th className="border-b border-brand-grey pb-4">Region</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -172,7 +184,7 @@ const Home = () => {
                           />
                         </td>
                         <td className="w-1/3 text-sm text-brand-light-grey">
-                          {country.name.official}
+                          {country.name.common}
                         </td>
                         <td className="text-sm text-brand-light-grey">
                           {country.population.toLocaleString("id-ID")}
