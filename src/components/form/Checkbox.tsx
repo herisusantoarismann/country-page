@@ -5,32 +5,33 @@ import React, { useState } from "react";
 import Checked from "@/assets/images/Done_round.svg";
 
 interface IProps {
-  label: String;
+  label: string;
   value: boolean | undefined;
+  onChange: (value: boolean | undefined) => void;
 }
 
-const Checkbox = ({ label, value }: IProps) => {
+const Checkbox = ({ label, value, onChange }: IProps) => {
   const [isChecked, setIsChecked] = useState(value);
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="relative flex items-center gap-3">
       <input
         type="checkbox"
         checked={isChecked}
         className="relative h-6 w-6 appearance-none rounded border border-2 border-brand-grey bg-transparent checked:border-none checked:bg-blue-600"
         readOnly
       />
-      <label
-        htmlFor="memberOfTheUnitedNations"
-        className="text-sm text-brand-light-grey"
-      >
+      <label htmlFor={label} className="text-sm text-brand-light-grey">
         {label}
       </label>
 
       {/* Icon checked */}
       <span
         className="absolute mt-1 h-6 w-6"
-        onClick={() => setIsChecked((prevState) => !prevState)}
+        onClick={() => {
+          onChange(!isChecked);
+          setIsChecked((prevState) => !prevState);
+        }}
       >
         <Image
           src={Checked}

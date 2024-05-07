@@ -5,6 +5,8 @@ export interface Country {
     common: string;
     official: string;
   };
+  independent: boolean;
+  unMember: boolean;
   region: string;
   subregion: string;
   area: number;
@@ -24,8 +26,11 @@ interface CountriesState {
   sortBy: string;
   regions: string[];
   selectedRegions: string[];
+  status: {
+    [key: string]: boolean;
+  };
   setCountries: (countries: Country[]) => void;
-  setState: (key: string, value: string | string[]) => void;
+  setState: (key: string, value: string | string[] | object) => void;
   filterCountries: () => void;
 }
 
@@ -36,6 +41,10 @@ const useCountriesStore = create<CountriesState>((set, get) => ({
   sortBy: "population",
   regions: [],
   selectedRegions: [],
+  status: {
+    independent: false,
+    unMember: false,
+  },
   setCountries: (newCountries) => {
     const result = newCountries.sort((a, b) => b.population - a.population);
     const regions = newCountries.map((country: Country) => country.region);
@@ -50,7 +59,7 @@ const useCountriesStore = create<CountriesState>((set, get) => ({
     set({ [key]: value });
   },
   filterCountries: () => {
-    const { countries, keyword, sortBy, selectedRegions } = get();
+    const { countries, keyword, sortBy, selectedRegions, status } = get();
 
     // filter by keyword * region
     let result = countries.filter((country: Country) => {
@@ -65,7 +74,10 @@ const useCountriesStore = create<CountriesState>((set, get) => ({
           ? selectedRegions.includes(country.region)
           : true;
 
-      return matchName && matchRegion;
+      const isUnMember = status.unMember ? country.unMember : true;
+      const isIndependent = status.independent ? country.independent : true;
+
+      return matchName && matchRegion && isUnMember && isIndependent;
     });
 
     // sort countries

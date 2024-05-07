@@ -22,6 +22,7 @@ const Home = () => {
     sortBy,
     regions,
     selectedRegions,
+    status,
     setCountries,
     setState,
     filterCountries,
@@ -30,11 +31,11 @@ const Home = () => {
   const formCheckBox = [
     {
       label: "Member of the United Nations",
-      value: false,
+      key: "unMember",
     },
     {
       label: "Independent",
-      value: false,
+      key: "independent",
     },
   ];
 
@@ -50,7 +51,7 @@ const Home = () => {
 
   useEffect(() => {
     filterCountries();
-  }, [keyword, sortBy, selectedRegions]);
+  }, [keyword, sortBy, selectedRegions, status]);
 
   return (
     <main className="max-w-screen flex min-h-screen flex-col overflow-hidden bg-secondary">
@@ -155,14 +156,20 @@ const Home = () => {
                 <div className="flex flex-col gap-3">
                   {formCheckBox.map(
                     (
-                      checkbox: { label: string; value: boolean },
+                      checkbox: { label: string; key: string },
                       index: number,
                     ) => {
                       return (
                         <Checkbox
                           key={index}
                           label={checkbox.label}
-                          value={checkbox.value}
+                          value={status[checkbox.key]}
+                          onChange={(value) => {
+                            setState("status", {
+                              ...status,
+                              [checkbox.key]: value,
+                            });
+                          }}
                         />
                       );
                     },
