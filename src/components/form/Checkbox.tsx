@@ -22,7 +22,7 @@ const Checkbox = ({ label, value }: IProps) => {
       />
       <label
         htmlFor="memberOfTheUnitedNations"
-        className="text-brand-light-grey text-sm"
+        className="text-sm text-brand-light-grey"
       >
         {label}
       </label>

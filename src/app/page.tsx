@@ -18,9 +18,13 @@ const Home = () => {
   const {
     countries,
     filteredCountries,
+    keyword,
+    sortBy,
+    regions,
+    selectedRegions,
     setCountries,
-    searchCountry,
-    sortByFunc,
+    setState,
+    filterCountries,
   } = useCountriesStore((state) => state);
 
   const formCheckBox = [
@@ -34,15 +38,6 @@ const Home = () => {
     },
   ];
 
-  const regions = [
-    "Americas",
-    "Antarctic",
-    "Africa",
-    "Asia",
-    "Europe",
-    "Oceania",
-  ];
-
   useEffect(() => {
     const getData = async () => {
       const { data } = await getAllCountries();
@@ -52,6 +47,10 @@ const Home = () => {
 
     getData();
   }, []);
+
+  useEffect(() => {
+    filterCountries();
+  }, [keyword, sortBy, selectedRegions]);
 
   return (
     <main className="max-w-screen flex min-h-screen flex-col overflow-hidden bg-secondary">
@@ -80,7 +79,7 @@ const Home = () => {
                 onChange={(e: ChangeEvent<HTMLInputElement>) => {
                   const keyword = e.target.value;
 
-                  searchCountry(keyword);
+                  setState("keyword", keyword);
                 }}
               />
             </div>
@@ -105,7 +104,7 @@ const Home = () => {
                     onChange={(e: ChangeEvent<HTMLSelectElement>) => {
                       const value = e.target.value;
 
-                      sortByFunc(value);
+                      setState("sortBy", value);
                     }}
                   >
                     <option value="population">Population</option>
@@ -129,7 +128,21 @@ const Home = () => {
                 </h4>
                 <div className="flex flex-wrap items-center gap-4">
                   {regions.map((region: string, index: number) => {
-                    return <RegionItem key={index} label={region} />;
+                    return (
+                      <RegionItem
+                        key={index}
+                        label={region}
+                        onClick={() => {
+                          const newRegions = selectedRegions.includes(region)
+                            ? selectedRegions.filter(
+                                (item: string) => item !== region,
+                              )
+                            : [...selectedRegions, region];
+
+                          setState("selectedRegions", newRegions);
+                        }}
+                      />
+                    );
                   })}
                 </div>
               </div>
