@@ -1,17 +1,17 @@
 import { create } from "zustand";
 
-interface Country {
+export interface Country {
   name: {
-    common: String;
-    official: String;
+    common: string;
+    official: string;
   };
-  region: String;
+  region: string;
   area: number;
   population: number;
   flags: {
-    png: String;
-    svg: String;
-    alt: String;
+    png: string;
+    svg: string;
+    alt: string;
   };
 }
 

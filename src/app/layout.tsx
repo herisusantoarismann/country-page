@@ -13,7 +13,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className="max-w-screen max-h-screen overflow-hidden">
+        {children}
+      </body>
     </html>
   );
 }
