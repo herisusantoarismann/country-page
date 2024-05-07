@@ -9,13 +9,14 @@ import ChevronDown from "@/assets/images/Expand_down.svg";
 import Checkbox from "@/components/form/Checkbox";
 import RegionItem from "@/components/RegionItem";
 import useCountriesStore, { Country } from "@/stores/countryStore";
-import { useEffect } from "react";
+import { ChangeEvent, useEffect } from "react";
 import countryServices from "@/services/country";
 
 const { getAllCountries } = countryServices();
 
 const Home = () => {
-  const { countries, setCountries } = useCountriesStore((state) => state);
+  const { countries, filteredCountries, setCountries, searchCountry } =
+    useCountriesStore((state) => state);
 
   const formCheckBox = [
     {
@@ -54,15 +55,16 @@ const Home = () => {
           src={BackgroundImage}
           alt="background-image"
           className="absolute z-10 h-full w-full object-cover"
+          priority
         />
-        <Image src={Logo} alt="logo" className="w-1/10 z-20 -mt-10" />
+        <Image src={Logo} alt="logo" className="w-1/10 z-20 -mt-10" priority />
       </div>
       <div className="relative -top-12 z-50 flex-1 px-24">
         <div className="h-[calc(100vh_-_240px_+_18px)] overflow-hidden rounded-lg border border-brand-grey bg-secondary p-8">
           {/* Header */}
           <div className="flex items-center justify-between">
             <p className="text-xl font-semibold text-brand-grey">
-              Found 234 countries
+              Found {countries.length.toLocaleString("id-ID")} countries
             </p>
             <div className="flex w-1/5 items-center gap-4 rounded-lg bg-brand-grey/40 px-4 py-3">
               <Image src={Search} alt="search-icon" />
@@ -70,6 +72,11 @@ const Home = () => {
                 type="text"
                 placeholder="Search by Name, Region, Subregion"
                 className="w-full rounded-lg border-none bg-transparent text-brand-light-grey outline-none placeholder:text-sm"
+                onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                  const keyword = e.target.value;
+
+                  searchCountry(keyword);
+                }}
               />
             </div>
           </div>
@@ -154,7 +161,7 @@ const Home = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {countries.map((country: Country, index: number) => {
+                  {filteredCountries.map((country: Country, index: number) => {
                     return (
                       <tr key={index}>
                         <td className="py-4">
