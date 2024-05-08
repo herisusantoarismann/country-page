@@ -25,7 +25,7 @@ const Select = ({ label, name, options }: IProps) => {
       </label>
       <div className="relative w-full overflow-hidden rounded-lg border border-brand-grey">
         <select
-          className="mr-2 w-full appearance-none bg-secondary px-4 py-2 text-brand-light-grey"
+          className="mr-2 w-full appearance-none bg-secondary px-4 py-2 text-sm text-brand-light-grey lg:text-base"
           onChange={(e: ChangeEvent<HTMLSelectElement>) => {
             const value = e.target.value;
 
