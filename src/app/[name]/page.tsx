@@ -1,5 +1,6 @@
 "use client";
 
+import CountryStats from "@/components/country/CountryStats";
 import DefaultLayout from "@/layouts/Default";
 import countryServices from "@/services/country";
 import useCountriesStore, { Country } from "@/stores/countryStore";
@@ -54,20 +55,14 @@ const Detail = ({ params }: IProps) => {
 
             <div className="flex h-full flex-col gap-10 overflow-y-auto">
               <div className="mx-auto flex flex-col justify-center gap-6 px-4 md:flex-row lg:px-24">
-                <div className="flex w-full items-center divide-x divide-secondary rounded-lg bg-brand-grey/25 py-4 text-brand-light-grey lg:w-fit">
-                  <span className="px-8 text-sm">Population</span>
-                  <span className="px-8">
-                    {country.population.toLocaleString("id-ID")}
-                  </span>
-                </div>
-                <div className="flex w-full items-center divide-x divide-secondary rounded-lg bg-brand-grey/25 py-4 text-brand-light-grey lg:w-fit">
-                  <span className="px-8 text-sm">
-                    Area (km<sup>2</sup>)
-                  </span>
-                  <span className="flex-1 px-8 text-right">
-                    {country.area.toLocaleString("id-ID")}
-                  </span>
-                </div>
+                <CountryStats
+                  label="Population"
+                  value={country.population.toLocaleString("id-ID")}
+                />
+                <CountryStats
+                  label="Area (km<sup>2</sup>)"
+                  value={country.area.toLocaleString("id-ID")}
+                />
               </div>
               <div className="flex flex-col divide-y divide-brand-grey/25 border-y border-brand-grey/25">
                 <div className="flex items-center justify-between p-6 text-sm">
