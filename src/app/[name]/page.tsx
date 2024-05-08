@@ -51,23 +51,24 @@ const Detail = ({ params }: IProps) => {
               <h1 className="text-4xl font-semibold">{country.name.common}</h1>
               <h2 className="">{country.name.official}</h2>
             </div>
-            <div className="mx-auto flex justify-center gap-6 px-24">
-              <div className="flex w-fit items-center divide-x divide-secondary rounded-lg bg-brand-grey/25 py-4 text-brand-light-grey">
-                <span className="px-8 text-sm">Population</span>
-                <span className="px-8">
-                  {country.population.toLocaleString("id-ID")}
-                </span>
+
+            <div className="flex h-full flex-col gap-10 overflow-y-auto">
+              <div className="mx-auto flex flex-col justify-center gap-6 px-4 md:flex-row lg:px-24">
+                <div className="flex w-full items-center divide-x divide-secondary rounded-lg bg-brand-grey/25 py-4 text-brand-light-grey lg:w-fit">
+                  <span className="px-8 text-sm">Population</span>
+                  <span className="px-8">
+                    {country.population.toLocaleString("id-ID")}
+                  </span>
+                </div>
+                <div className="flex w-full items-center divide-x divide-secondary rounded-lg bg-brand-grey/25 py-4 text-brand-light-grey lg:w-fit">
+                  <span className="px-8 text-sm">
+                    Area (km<sup>2</sup>)
+                  </span>
+                  <span className="flex-1 px-8 text-right">
+                    {country.area.toLocaleString("id-ID")}
+                  </span>
+                </div>
               </div>
-              <div className="flex w-fit items-center divide-x divide-secondary rounded-lg bg-brand-grey/25 py-4 text-brand-light-grey">
-                <span className="px-8 text-sm">
-                  Area (km<sup>2</sup>)
-                </span>
-                <span className="px-8">
-                  {country.area.toLocaleString("id-ID")}
-                </span>
-              </div>
-            </div>
-            <div className="h-full overflow-y-auto">
               <div className="flex flex-col divide-y divide-brand-grey/25 border-y border-brand-grey/25">
                 <div className="flex items-center justify-between p-6 text-sm">
                   <span className="flex-1 text-brand-grey">Capital</span>
@@ -103,7 +104,7 @@ const Detail = ({ params }: IProps) => {
                 </div>
               </div>
 
-              <div className="flex flex-col gap-6 p-6">
+              <div className="flex flex-col gap-6 px-6">
                 <h4 className="text-brand-grey">Neighbouring Countries</h4>
                 <div className="flex flex-wrap items-start gap-6">
                   {country.neighboringCountries.map(
