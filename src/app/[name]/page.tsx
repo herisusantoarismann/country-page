@@ -2,7 +2,7 @@
 
 import DefaultLayout from "@/layouts/Default";
 import countryServices from "@/services/country";
-import useCountriesStore from "@/stores/countryStore";
+import useCountriesStore, { Country } from "@/stores/countryStore";
 import React, { useEffect } from "react";
 
 interface IProps {
@@ -11,7 +11,7 @@ interface IProps {
   };
 }
 
-const { getCountry } = countryServices();
+const { getCountry, getCountryByCode } = countryServices();
 
 const Detail = ({ params }: IProps) => {
   const { setState, country } = useCountriesStore();
@@ -21,6 +21,15 @@ const Detail = ({ params }: IProps) => {
       const name = params?.name;
 
       const { data } = await getCountry(name);
+
+      let neighbourContries = [];
+      for (let i = 0; i < data[0].borders.length; i++) {
+        const cca3 = data[0].borders[i];
+        const response = await getCountryByCode(cca3);
+
+        neighbourContries.push(response.data[0]);
+      }
+      data[0].neighboringCountries = neighbourContries;
 
       setState("country", data[0]);
     };
@@ -32,7 +41,7 @@ const Detail = ({ params }: IProps) => {
     <DefaultLayout>
       <div className="mx-auto w-fit rounded-lg border border-brand-grey bg-secondary">
         {country ? (
-          <div className="relative -top-10 flex flex-col gap-10">
+          <div className="relative -top-10 flex h-[calc(100vh_-_240px_+_18px)] flex-col gap-10">
             <img
               src={country.flags.png}
               alt={country.name.common}
@@ -58,38 +67,62 @@ const Detail = ({ params }: IProps) => {
                 </span>
               </div>
             </div>
-            <div className="flex flex-col divide-y divide-brand-grey/25 border-y border-brand-grey/25">
-              <div className="flex items-center justify-between p-6 text-sm">
-                <span className="flex-1 text-brand-grey">Capital</span>
-                <span className="flex-1 text-right text-brand-light-grey">
-                  {country.capital.join(", ")}
-                </span>
+            <div className="h-full overflow-y-auto">
+              <div className="flex flex-col divide-y divide-brand-grey/25 border-y border-brand-grey/25">
+                <div className="flex items-center justify-between p-6 text-sm">
+                  <span className="flex-1 text-brand-grey">Capital</span>
+                  <span className="flex-1 text-right text-brand-light-grey">
+                    {country.capital.join(", ")}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between p-6 text-sm">
+                  <span className="flex-1 text-brand-grey">Subregion</span>
+                  <span className="flex-1 text-right text-brand-light-grey">
+                    {country.subregion}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between p-6 text-sm">
+                  <span className="flex-1 text-brand-grey">Language</span>
+                  <span className="flex-1 text-right text-brand-light-grey">
+                    {Object.values(country.languages).join(", ")}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between p-6 text-sm">
+                  <span className="flex-1 text-brand-grey">Currencies</span>
+                  <span className="flex-1 text-right text-brand-light-grey">
+                    {Object.values(country.currencies)
+                      .map((currency) => currency.name)
+                      .join(", ")}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between p-6 text-sm">
+                  <span className="flex-1 text-brand-grey">Continents</span>
+                  <span className="flex-1 text-right text-brand-light-grey">
+                    {country.continents.join(", ")}
+                  </span>
+                </div>
               </div>
-              <div className="flex items-center justify-between p-6 text-sm">
-                <span className="flex-1 text-brand-grey">Subregion</span>
-                <span className="flex-1 text-right text-brand-light-grey">
-                  {country.subregion}
-                </span>
-              </div>
-              <div className="flex items-center justify-between p-6 text-sm">
-                <span className="flex-1 text-brand-grey">Language</span>
-                <span className="flex-1 text-right text-brand-light-grey">
-                  {Object.values(country.languages).join(", ")}
-                </span>
-              </div>
-              <div className="flex items-center justify-between p-6 text-sm">
-                <span className="flex-1 text-brand-grey">Currencies</span>
-                <span className="flex-1 text-right text-brand-light-grey">
-                  {Object.values(country.currencies)
-                    .map((currency) => currency.name)
-                    .join(", ")}
-                </span>
-              </div>
-              <div className="flex items-center justify-between p-6 text-sm">
-                <span className="flex-1 text-brand-grey">Continents</span>
-                <span className="flex-1 text-right text-brand-light-grey">
-                  {country.continents.join(", ")}
-                </span>
+
+              <div className="flex flex-col gap-6 p-6">
+                <h4 className="text-brand-grey">Neighbouring Countries</h4>
+                <div className="flex flex-wrap items-start gap-6">
+                  {country.neighboringCountries.map(
+                    (country: Country, index: number) => {
+                      return (
+                        <div key={index} className="flex w-20 flex-col gap-2">
+                          <img
+                            src={country.flags.png}
+                            alt={country.name.common}
+                            className="h-12 w-fit overflow-hidden rounded"
+                          />
+                          <p className="text-sm text-brand-light-grey">
+                            {country.name.common}
+                          </p>
+                        </div>
+                      );
+                    },
+                  )}
+                </div>
               </div>
             </div>
           </div>
