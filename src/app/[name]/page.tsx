@@ -1,6 +1,7 @@
 "use client";
 
 import CountryDetail from "@/components/country/CountryDetail";
+import CountryNeightbour from "@/components/country/CountryNeightbour";
 import CountryStats from "@/components/country/CountryStats";
 import DefaultLayout from "@/layouts/Default";
 import countryServices from "@/services/country";
@@ -113,16 +114,11 @@ const Detail = ({ params }: IProps) => {
                   {country.neighboringCountries.map(
                     (country: Country, index: number) => {
                       return (
-                        <div key={index} className="flex w-20 flex-col gap-2">
-                          <img
-                            src={country.flags.png}
-                            alt={country.name.common}
-                            className="h-12 w-fit overflow-hidden rounded"
-                          />
-                          <p className="text-sm text-brand-light-grey">
-                            {country.name.common}
-                          </p>
-                        </div>
+                        <CountryNeightbour
+                          key={index}
+                          flag={country.flags.png}
+                          name={country.name.common}
+                        />
                       );
                     },
                   )}
