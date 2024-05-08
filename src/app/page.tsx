@@ -4,15 +4,14 @@ import Image from "next/image";
 
 import BackgroundImage from "@/assets/images/hero-image-wr.jpg";
 import Logo from "@/assets/images/Logo.svg";
-import Search from "@/assets/images/Search.svg";
-import ChevronDown from "@/assets/images/Expand_down.svg";
 import Checkbox from "@/components/form/Checkbox";
 import RegionItem from "@/components/RegionItem";
 import useCountriesStore, { Country } from "@/stores/countryStore";
-import { ChangeEvent, useEffect } from "react";
+import { useEffect } from "react";
 import countryServices from "@/services/country";
 import Select, { ISelectOption } from "@/components/form/Select";
 import Table from "@/components/table/Table";
+import SearchInput from "@/components/SearchInput";
 
 const { getAllCountries } = countryServices();
 
@@ -95,19 +94,7 @@ const Home = () => {
             <p className="font-semibold text-brand-grey lg:text-xl">
               Found {countries.length.toLocaleString("id-ID")} countries
             </p>
-            <div className="flex w-full items-center gap-2 rounded-lg bg-brand-grey/40 px-3 py-2 lg:w-2/5 lg:gap-4 lg:px-4 lg:py-3 xl:w-1/5">
-              <Image src={Search} alt="search-icon" />
-              <input
-                type="text"
-                placeholder="Search by Name, Region, Subregion"
-                className="w-full rounded-lg border-none bg-transparent text-sm text-brand-light-grey outline-none placeholder:text-xs lg:text-base lg:placeholder:text-sm"
-                onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  const keyword = e.target.value;
-
-                  setState("keyword", keyword);
-                }}
-              />
-            </div>
+            <SearchInput placeholder="Search by Name, Region, Subregion" />
           </div>
 
           {/* Content */}
