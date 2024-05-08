@@ -16,6 +16,18 @@ export interface Country {
     svg: string;
     alt: string;
   };
+  capital: string[];
+  languages: {
+    [key: string]: string;
+  };
+  currencies: {
+    [key: string]: {
+      name: string;
+      symbol: string;
+    };
+  };
+  continents: string[];
+  neighboringCountries: Country[];
   [key: string]: any;
 }
 
