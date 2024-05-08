@@ -63,6 +63,8 @@ const Home = () => {
     };
 
     getData();
+
+    document.title = "Country Page";
   }, []);
 
   useEffect(() => {
@@ -163,7 +165,7 @@ const Home = () => {
                 </div>
               </div>
             </div>
-            <div className="h-full w-full flex-1">
+            <div className="h-full w-full flex-1 overflow-auto">
               <table className="w-full border-separate overflow-x-auto">
                 <thead className="sticky top-0 bg-secondary">
                   <tr className="text-left text-sm text-brand-grey">
