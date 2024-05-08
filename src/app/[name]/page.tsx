@@ -35,6 +35,8 @@ const Detail = ({ params }: IProps) => {
       data[0].neighboringCountries = neighbourContries;
 
       setState("country", data[0]);
+
+      document.title = `Country Page | ${data[0].name.common}`;
     };
 
     getData();
