@@ -21,6 +21,7 @@ export interface Country {
 
 interface CountriesState {
   countries: Country[];
+  country: Country | null;
   filteredCountries: Country[];
   keyword: string;
   sortBy: string;
@@ -36,6 +37,7 @@ interface CountriesState {
 
 const useCountriesStore = create<CountriesState>((set, get) => ({
   countries: [],
+  country: null,
   filteredCountries: [],
   keyword: "",
   sortBy: "population",

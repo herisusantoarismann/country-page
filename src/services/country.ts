@@ -11,7 +11,17 @@ const countryServices = () => {
     }
   };
 
-  return { getAllCountries };
+  const getCountry = async (name: string) => {
+    try {
+      const country = await axios.get(`/name/${name}`);
+
+      return country;
+    } catch (err) {
+      throw new Error("Error while fetching country: " + err);
+    }
+  };
+
+  return { getAllCountries, getCountry };
 };
 
 export default countryServices;
