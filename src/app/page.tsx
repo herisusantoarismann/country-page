@@ -12,6 +12,7 @@ import useCountriesStore, { Country } from "@/stores/countryStore";
 import { ChangeEvent, useEffect } from "react";
 import countryServices from "@/services/country";
 import Select, { ISelectOption } from "@/components/form/Select";
+import Table from "@/components/table/Table";
 
 const { getAllCountries } = countryServices();
 
@@ -54,6 +55,11 @@ const Home = () => {
       value: "area",
     },
   ];
+
+  const tableData = {
+    headers: ["Flag", "Name", "Population", "Area (km<sup>2</sup>)", "Region"],
+    data: filteredCountries,
+  };
 
   useEffect(() => {
     const getData = async () => {
@@ -166,54 +172,7 @@ const Home = () => {
               </div>
             </div>
             <div className="h-full w-full flex-1 overflow-auto">
-              <table className="w-full border-separate overflow-x-auto">
-                <thead className="sticky top-0 bg-secondary">
-                  <tr className="text-left text-sm text-brand-grey">
-                    <th className="min-w-[85px] border-b border-brand-grey pb-4">
-                      Flag
-                    </th>
-                    <th className="min-w-[150px] border-b border-brand-grey pb-4">
-                      Name
-                    </th>
-                    <th className="min-w-[150px] border-b border-brand-grey pb-4">
-                      Population
-                    </th>
-                    <th className="min-w-[150px] border-b border-brand-grey pb-4">
-                      Area (km<sup>2</sup>)
-                    </th>
-                    <th className="min-w-[100px] border-b border-brand-grey pb-4">
-                      Region
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredCountries.map((country: Country, index: number) => {
-                    return (
-                      <tr key={index}>
-                        <td className="py-4">
-                          <img
-                            src={country.flags.png}
-                            alt={country.name.common}
-                            className="w-16 rounded"
-                          />
-                        </td>
-                        <td className="w-1/3 text-sm text-brand-light-grey">
-                          {country.name.common}
-                        </td>
-                        <td className="text-sm text-brand-light-grey">
-                          {country.population.toLocaleString("id-ID")}
-                        </td>
-                        <td className="text-sm text-brand-light-grey">
-                          {country.area.toLocaleString("id-ID")}
-                        </td>
-                        <td className="text-sm text-brand-light-grey">
-                          {country.region}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+              <Table headers={tableData.headers} countries={tableData.data} />
             </div>
           </div>
         </div>
