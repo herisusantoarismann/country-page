@@ -18,7 +18,7 @@ git clone https://github.com/nama-user/repo-aplikasi.git
 3. Masuk ke direktori aplikasi
 
 ```bash
-cd repo-aplikasi
+cd country-page
 ```
 
 4. Masuk ke direktori aplikasi
