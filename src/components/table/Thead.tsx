@@ -7,7 +7,7 @@ interface IProps {
 function Thead({ headers }: IProps) {
   return (
     <thead className="sticky top-0 bg-secondary">
-      <tr className="text-left text-sm text-brand-grey">
+      <tr className="border-b-2 border-brand-grey text-left text-sm text-brand-grey">
         {headers.map((header: string, index: number) => {
           return (
             <th

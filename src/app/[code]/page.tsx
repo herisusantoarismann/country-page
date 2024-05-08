@@ -10,20 +10,20 @@ import React, { useEffect } from "react";
 
 interface IProps {
   params: {
-    name: string;
+    code: string;
   };
 }
 
-const { getCountry, getCountryByCode } = countryServices();
+const { getCountryByCode } = countryServices();
 
 const Detail = ({ params }: IProps) => {
   const { setState, country } = useCountriesStore();
 
   useEffect(() => {
     const getData = async () => {
-      const name = params?.name;
+      const code = params?.code;
 
-      const { data } = await getCountry(name);
+      const { data } = await getCountryByCode(code);
 
       let neighbourContries = [];
       for (let i = 0; i < data[0].borders.length; i++) {
@@ -110,7 +110,7 @@ const Detail = ({ params }: IProps) => {
                 )}
               </div>
 
-              <div className="flex flex-col gap-6 px-6">
+              <div className="flex max-w-screen-lg flex-col gap-6 px-6">
                 <h4 className="text-brand-grey">Neighbouring Countries</h4>
                 <div className="flex flex-wrap items-start gap-6">
                   {country.neighboringCountries.map(
