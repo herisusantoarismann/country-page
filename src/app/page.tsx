@@ -11,6 +11,7 @@ import RegionItem from "@/components/RegionItem";
 import useCountriesStore, { Country } from "@/stores/countryStore";
 import { ChangeEvent, useEffect } from "react";
 import countryServices from "@/services/country";
+import Select, { ISelectOption } from "@/components/form/Select";
 
 const { getAllCountries } = countryServices();
 
@@ -36,6 +37,21 @@ const Home = () => {
     {
       label: "Independent",
       key: "independent",
+    },
+  ];
+
+  const sortOptions: ISelectOption[] = [
+    {
+      label: "Population",
+      value: "population",
+    },
+    {
+      label: "Alphabetical",
+      value: "name",
+    },
+    {
+      label: "Area",
+      value: "area",
     },
   ];
 
@@ -90,37 +106,7 @@ const Home = () => {
           <div className="flex h-[calc(100%_-_48px)] gap-12 overflow-hidden pt-12">
             <div className="flex h-full w-1/5 flex-col gap-8 overflow-auto">
               {/* Sort By */}
-              <div className="flex flex-col gap-2">
-                <label
-                  htmlFor="sortBy"
-                  className="text-sm font-semibold text-brand-grey"
-                >
-                  Sort By
-                </label>
-                <div className="relative w-full overflow-hidden rounded-lg border border-brand-grey">
-                  <select
-                    name="sortBy"
-                    id="sortBy"
-                    className="mr-2 w-full appearance-none bg-secondary px-4 py-2 text-brand-light-grey"
-                    onChange={(e: ChangeEvent<HTMLSelectElement>) => {
-                      const value = e.target.value;
-
-                      setState("sortBy", value);
-                    }}
-                  >
-                    <option value="population">Population</option>
-                    <option value="name">Alphabetical</option>
-                    <option value="area">Area</option>
-                  </select>
-
-                  {/* Chevron down */}
-                  <Image
-                    src={ChevronDown}
-                    alt="chevron-down-icon"
-                    className="absolute right-4 top-2/4 -translate-y-2/4"
-                  />
-                </div>
-              </div>
+              <Select label="Sort By" name="sortBy" options={sortOptions} />
 
               {/* Filter Region */}
               <div className="flex flex-col gap-3">
