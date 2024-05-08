@@ -1,5 +1,6 @@
 "use client";
 
+import CountryDetail from "@/components/country/CountryDetail";
 import CountryStats from "@/components/country/CountryStats";
 import DefaultLayout from "@/layouts/Default";
 import countryServices from "@/services/country";
@@ -38,6 +39,34 @@ const Detail = ({ params }: IProps) => {
     getData();
   }, []);
 
+  const details = [
+    {
+      label: "Capital",
+      value: country?.capital.join(", "),
+    },
+    {
+      label: "Subregion",
+      value: country?.subregion,
+    },
+    {
+      label: "Language",
+      value: (country && Object.values(country!.languages).join(", ")) ?? "",
+    },
+    {
+      label: "Currencies",
+      value:
+        (country &&
+          Object.values(country.currencies)
+            .map((currency) => currency.name)
+            .join(", ")) ??
+        "",
+    },
+    {
+      label: "Continents",
+      value: country?.continents.join(", "),
+    },
+  ];
+
   return (
     <DefaultLayout>
       <div className="mx-auto w-fit rounded-lg border border-brand-grey bg-secondary">
@@ -65,38 +94,17 @@ const Detail = ({ params }: IProps) => {
                 />
               </div>
               <div className="flex flex-col divide-y divide-brand-grey/25 border-y border-brand-grey/25">
-                <div className="flex items-center justify-between p-6 text-sm">
-                  <span className="flex-1 text-brand-grey">Capital</span>
-                  <span className="flex-1 text-right text-brand-light-grey">
-                    {country.capital.join(", ")}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between p-6 text-sm">
-                  <span className="flex-1 text-brand-grey">Subregion</span>
-                  <span className="flex-1 text-right text-brand-light-grey">
-                    {country.subregion}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between p-6 text-sm">
-                  <span className="flex-1 text-brand-grey">Language</span>
-                  <span className="flex-1 text-right text-brand-light-grey">
-                    {Object.values(country.languages).join(", ")}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between p-6 text-sm">
-                  <span className="flex-1 text-brand-grey">Currencies</span>
-                  <span className="flex-1 text-right text-brand-light-grey">
-                    {Object.values(country.currencies)
-                      .map((currency) => currency.name)
-                      .join(", ")}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between p-6 text-sm">
-                  <span className="flex-1 text-brand-grey">Continents</span>
-                  <span className="flex-1 text-right text-brand-light-grey">
-                    {country.continents.join(", ")}
-                  </span>
-                </div>
+                {details.map(
+                  (item: { label: string; value: any }, index: number) => {
+                    return (
+                      <CountryDetail
+                        key={index}
+                        label={item.label}
+                        value={item.value}
+                      />
+                    );
+                  },
+                )}
               </div>
 
               <div className="flex flex-col gap-6 px-6">
