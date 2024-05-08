@@ -6,7 +6,7 @@ import BackgroundImage from "@/assets/images/hero-image-wr.jpg";
 import Logo from "@/assets/images/Logo.svg";
 import Checkbox from "@/components/form/Checkbox";
 import RegionItem from "@/components/RegionItem";
-import useCountriesStore, { Country } from "@/stores/countryStore";
+import useCountriesStore from "@/stores/countryStore";
 import { useEffect } from "react";
 import countryServices from "@/services/country";
 import Select, { ISelectOption } from "@/components/form/Select";
